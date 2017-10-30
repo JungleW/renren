@@ -27,7 +27,8 @@ Page({
 		hotimg : "/static/images/hotdot.jpg",
 		notification : "/static/images/notification.png",
     show:false,
-    floor:{}
+    floor:{},
+    citys:[]
 	},
 	getShop : function () {
 		var that = this;
@@ -50,9 +51,7 @@ Page({
   },
   //获取楼层数据 
   getFloor:function(){
-
     var that = this;
-    
     a.get("goods/get_floor", {}, function (res) {
           console.log(res);
           that.setData({
@@ -60,9 +59,6 @@ Page({
           floor: res.floors
         })
       })
-      
-
-
 
   },
 	getRecommand : function () {
@@ -93,14 +89,14 @@ Page({
     })
 	},
 	onLoad : function (t) {
-    console.log('a', t, isLoc)
+    console.log('aaaaaaaaaaaaaaaaaaaa', t, isLoc)
     var app = getApp();
     var self = this;
-
     if (isLoc) {
       var address = getApp().globalData.city;
       this.setData({ address: address });
-    }else{
+    }
+    else{
       wx.getLocation({
         type: 'gcj02',
         success: function (res) {
@@ -108,7 +104,6 @@ Page({
           var longitude = res.longitude;
           app.globalData.lat = latitude;
           app.globalData.lng = longitude;
-
           // 实例划API核心类
           var map = new QQMapWX({
             key: 'LAWBZ-2CHCD-MCK4X-PSTUA-NJZJJ-IHFQ2' // 必填
@@ -123,16 +118,41 @@ Page({
             success: function (res) {
               var city = res.result.ad_info.city;
               console.log('successs', res, city);
-              /*
+              //方便调试，，，，，，，，，，到时候要去掉
+              var city = '广州市';
+
               if (city != undefined) {
+                //获取城市列表
+                a.get("shop/get_citys", {}, function (a) {
+                  if (a.citys)
+                  {
+                    for (var k in a.citys) {
+                      if (a.citys[k].name == city)
+                      {
+                        var city_id = parseInt(a.citys[k].id);
+                        app.globalData.city_id = city_id;
+                      }
+                    }
+                  }
+
+                  let city_arr = a.citys; 
+                  //城市数组
+                  self.setData({
+                    citys: city_arr
+                    })
+                })
+
                 //判断当前用户是否在常州市 或 广州市
                 if (city == '常州市' || city == '广州市'){
                   a.alert('亲这是小程序公测版，暂不发货，谢谢配合')
-                }else{
+                }
+                else{
+                  /*
                   wx.redirectTo({
                     url: '/pages/error/error?type=1'
                   })
                   return false;
+                  */
                 }
                 self.setData({
                   //当前所在城市
@@ -140,7 +160,7 @@ Page({
                 });
                 getApp().globalData.city = city;
               }
-              */
+              
             },
             fail: function (res) {
               wx.redirectTo({
