@@ -16,7 +16,7 @@ wx-checkbox{ padding-right:20rpx }
 .light{ height: 260rpx; width: 240rpx }
 .text-cancel{ padding-top:60rpx; font-size: 34rpx; }
 .fui-list-inner .car_subtitle { position:relative; font-size:26rpx; color:#444; }
-.fui-number{ height:50rpx; width: 160rpx; top:47px;
+.fui-number{ height:50rpx; width: 160rpx; top:44px;
 right:17px;
 }
 .minus,.plus{ width: 50rpx; height: 50rpx; font-size: 40rpx; line-height: 50rpx; border-radius: 50%;color: #fff;}

@@ -20,6 +20,7 @@ Page({
         }
        that.setData({
           show: !0,
+          acts: e.acts,
           credit: e.credit1,
           money: e.credit2,
           limit: e.minCredit,

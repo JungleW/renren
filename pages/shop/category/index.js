@@ -33,11 +33,6 @@ var GetList = function (that) {
   }
   e.get("goods/get_list", params, function (a) {
     var goods = a.list;
-    var allBrands = t.data.allBrands;
-    var allCates = t.data.allCates;
-
-    var brandObject = {};
-    var cateObject = {};
     //上拉加载
     var goods_list = t.data.goods;
     
@@ -48,42 +43,10 @@ var GetList = function (that) {
         goods_list.push(goods[i]);
 
         goods[i].amount = 0;
-        var brandId = goods[i].brand;
-        var tcateIds = goods[i].tcates.split(',');
-
-        if (brandId) {
-          brandObject[brandId] = allBrands[brandId];
-        }
-        if (tcateIds.length > 0) {
-          for (var j = 0, lenJ = tcateIds.length; j < len; j++) {
-            if (!tcateIds[j] || !allCates[tcateIds[j]]) continue;
-            cateObject[tcateIds[j]] = allCates[tcateIds[j]];
-          }
-        }
-      }
-      var keys = Object.keys(brandObject);
-      var brands = [];
-      for (var i = 0, len = keys.length; i < len; i++) {
-        brands.push({
-          'id': keys[i],
-          'brand': brandObject[keys[i]]
-        })
-      }
-      keys = Object.keys(cateObject);
-      var cates = [];
-      for (var i = 0, len = keys.length; i < len; i++) {
-        cates.push({
-          'id': keys[i],
-          'name': cateObject[keys[i]]
-        })
       }
     }
-    
-    t.data.tgoods = goods_list;
     t.setData({
       goods: goods_list,
-      brands: brands,
-      cates: cates,
       loading: 0
     })
     t.refreshGoods();
@@ -120,8 +83,8 @@ Page({
     cateIdSelected: '',
     brandIdSelected: '',
     cate: '',
+    needCate: 1,
     goods: [],
-    tgoods: [], //临时存放商品列表
     loading: 1,
     cartMapping: {}
   },
@@ -169,6 +132,7 @@ Page({
       cateIdSelected: '',
       brandIdSelected: '',
       cate: leftNavs[currentLeftNav].id,
+      needCate: 1
     })
     t.showGoods();
   }, 
@@ -192,7 +156,8 @@ Page({
       cateIdSelected: '',
       brandIdSelected: '',
       cate: leftNavs[currentLeftNav].id,
-      page: 1
+      page: 1,
+      needCate: 1
     })
     t.showGoods();
   },
@@ -215,7 +180,7 @@ Page({
       currentTab: 0,
       page:1
     })
-    this.filterGoods()
+    this.showGoods()
   },
   tapBrand: function (e) {
     var brandId = e.currentTarget.dataset.id;
@@ -224,7 +189,7 @@ Page({
       currentTab: 0,
       page: 1
     })
-    this.filterGoods()
+    this.showGoods()
   },
   tapNum: function(ev){
     var that = this;
@@ -370,88 +335,72 @@ Page({
     })
     var params = {
       cate: t.data.cate,
-      brand: t.data.brandIdSelected
+      brand: t.data.brandIdSelected,
+      needcate: t.data.needCate
     }
     e.get("goods/get_list", params, function (a) {
       var goods = a.list;
-      var allBrands = t.data.allBrands;
-      var allCates = t.data.allCates;
-
-      var brandObject = {};
-      var cateObject = {};
-
-      for(var i=0,len=goods.length; i<len; i++){
-
+      for (var i = 0, len = goods.length; i < len; i++) {
         goods[i].amount = 0;
-        var brandId = goods[i].brand;
-        var tcateIds = goods[i].tcates.split(',');
+      }
 
-        if (brandId){
-          brandObject[brandId] = allBrands[brandId];
-        }
-        if(tcateIds.length>0){
-          for(var j=0,lenJ=tcateIds.length; j<len; j++){
-            if(!tcateIds[j] || !allCates[tcateIds[j]]) continue;
-            cateObject[tcateIds[j]] = allCates[tcateIds[j]];
+      if(t.data.needCate){
+        // 获取品牌 & 规格
+        var allBrands = t.data.allBrands;
+        var allCates = t.data.allCates;
+
+        var brandObject = {};
+        var cateObject = {};
+
+        if (a.catebrandlist && a.catebrandlist.length) {
+          for (var i = 0, len = a.catebrandlist.length; i < len; i++) {
+            var cb = a.catebrandlist[i];
+            var brandId = cb.brand;
+            var tcateIds = cb.tcates.split(',');
+
+            if (brandId) {
+              brandObject[brandId] = allBrands[brandId];
+            }
+            if (tcateIds.length > 0) {
+              for (var j = 0, lenJ = tcateIds.length; j < len; j++) {
+                if (!tcateIds[j] || !allCates[tcateIds[j]]) continue;
+                cateObject[tcateIds[j]] = allCates[tcateIds[j]];
+              }
+            }
           }
         }
-      }
-      var keys = Object.keys(brandObject);
-      var brands = [];
-      for(var i=0,len=keys.length; i<len; i++){
-        brands.push({
-          'id': keys[i], 
-          'brand': brandObject[keys[i]]
+        var keys = Object.keys(brandObject);
+        var brands = [];
+        for (var i = 0, len = keys.length; i < len; i++) {
+          brands.push({
+            'id': keys[i],
+            'brand': brandObject[keys[i]]
+          })
+        }
+        keys = Object.keys(cateObject);
+        var cates = [];
+        for (var i = 0, len = keys.length; i < len; i++) {
+          cates.push({
+            'id': keys[i],
+            'name': cateObject[keys[i]]
+          })
+        }
+        t.setData({
+          goods: goods,
+          brands: brands,
+          cates: cates,
+          loading: 0,
+          needCate: 0
+        })
+      }else{
+        t.setData({
+          goods: goods,
+          loading: 0,
+          needCate: 0
         })
       }
-      keys = Object.keys(cateObject);
-      var cates = [];
-      for (var i = 0, len = keys.length; i < len; i++) {
-        cates.push({
-          'id': keys[i],
-          'name': cateObject[keys[i]]
-        })
-      }
-      t.data.tgoods = goods;
-      t.setData({
-        goods: goods,
-        brands: brands,
-        cates: cates,
-        loading: 0
-      })
       t.refreshGoods();
     })
-  },
-  filterGoods: function(){
-    var that = this;
-    var brand = that.data.brandIdSelected;
-    var cate = that.data.cateIdSelected;
-    var tgoods = that.data.tgoods;
-    var goods = [];
-    for(var i=0,len=tgoods.length; i<len; i++){
-      var g = tgoods[i];
-      if((!brand || g['brand'] == brand)){
-        if (!cate) {
-          goods.push(g);
-          continue;
-        }
-        var flag = false;
-        var tcateIds = g['tcates'].split(',');
-        for (var j = 0, lenJ = tcateIds.length; j < len; j++) {
-          if (!tcateIds[j]) continue;
-          if (tcateIds[j] == cate) {
-            flag = true;
-          }
-        }
-        if (flag) {
-          goods.push(g);
-        }
-      }
-    }
-    that.setData({
-      goods: goods
-    })
-    that.refreshGoods();
   },
   refreshGoods: function() {
     var that = this;

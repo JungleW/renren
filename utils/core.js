@@ -1,3 +1,75 @@
+var app = getApp();
+var QQMapWX = require("qqmap-wx-jssdk.min.js");
+var cityid = wx.getStorageSync('cityid')
+if (!cityid) {
+  wx.request({
+    url: 'https://demo.shopjoy.top/app/ewei_shopv2_api.php?i=3&r=shop.get_citys',
+    data: {},
+    header: {
+      'content-type': 'application/json'
+    },
+    success: function (res) {
+      console.log(res.data)
+      let city_arr = res.data.citys;
+      wx.getLocation({
+        type: 'gcj02',
+        success: function (res) {
+          var latitude = res.latitude;
+          var longitude = res.longitude;
+          // 实例划API核心类
+          var map = new QQMapWX({
+            key: 'LAWBZ-2CHCD-MCK4X-PSTUA-NJZJJ-IHFQ2' // 必填
+          });
+          // 调用接口
+          map.reverseGeocoder({
+            location: {
+              latitude: latitude,
+              longitude: longitude,
+            },
+            coord_type: 1,
+            success: function (res) {
+              var city = res.result.ad_info.city;
+              console.log('successs', res, city);
+              //方便调试，，，，，，，，，，到时候要去掉
+              var city = '广州市';
+
+              if (city != undefined) {
+                if (city_arr) {
+                  for (var k in city_arr) {
+                    if (city_arr[k].name == city) {
+                      var cityid = parseInt(city_arr[k].id);
+                      wx.setStorageSync('cityid', cityid)
+                      getApp().globalData.cityid = cityid;
+                    }
+                  }
+                }
+                console.log('************', getApp().globalData)
+              }
+
+            },
+            fail: function (res) {
+              wx.redirectTo({
+                url: '/pages/error/error?type=2'
+              })
+              return false;
+            }
+          });
+        },
+        fail: function (res) {
+          wx.redirectTo({
+            url: '/pages/error/error?type=2'
+          })
+          return false;
+        }
+      })
+    }
+  })
+}
+else{
+  console.log('缓存中有了')
+}
+
+
 var t = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ?
   function (t) {
     return typeof t
@@ -17,6 +89,7 @@ module.exports = {
   },
   json: function (t, n, o, i, a, c) {
     var r = getApp(),
+    
       s = r.getCache("userinfo"),
       u = r.getCache("usermid"),
       f = r.getCache("authkey");
@@ -25,6 +98,9 @@ module.exports = {
       s && (n.openid = "sns_wa_" + s.openid, "cacheset" != t && r.getSet()),
       u && (n.mid = u.mid, n.merchid = u.merchid);
     var d = this;
+
+    var cityid = wx.getStorageSync('cityid');
+    console.log('%%%%%%%%%%%%%%%%%%%', cityid)
     i && d.loading(),
       n && (n.authkey = f || "");
     var p = a ? this.getUrl(t) : this.getUrl(t, n),
@@ -34,7 +110,10 @@ module.exports = {
         header: {
           "Content-type": a ? "application/x-www-form-urlencoded" : "application/json",
           Cookie: "PHPSESSID=" + s.openid
-        }
+        },
+        data: {
+          cityid: cityid,
+        },
       };
     c || delete l.header.Cookie,
       a && (l.data = e.param(n)),

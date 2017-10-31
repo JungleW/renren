@@ -14,44 +14,30 @@
       </view>
     </view>
 
-    <!-- 兑换提示 -->
-    <!-- 
     <block wx:if='{{acts}}'>
       <view class='fui-cell-group {{toggleStore?"toggleSend-group":""}}'>
-
         <view class='fui-cell' bindtap='toggle' data-id='toggleStore' data-type='{{toggleStore}}'>
           <view class='fui-cell-text'>
-            <text class='store'>兑换规则： </text>
+            <text class='store'>充值活动 </text>
+             </view>
+        </view> <view class='fui-cell' bindtap='toggle' data-id='toggleStore' data-type='{{toggleStore}}'>
+         <view class='fui-cell-text'>
+             <text class='store'> 充值满<text class='text-danger'>{{acts[0].enough}}</text>元立即送<text class='text-danger'>{{acts[0].give}}</text>元(不累加)</text>
           </view>
-        </view>
-
-
-        <view class='fui-cell' bindtap='toggle' data-id='toggleStore' data-type='{{toggleStore}}'>
-          <view class='fui-cell-text'>
-            <text class='store'> 充值满
-              <text class='text-danger'>{{acts[0].enough}}</text>元立即送
-              <text class='text-danger'>{{acts[0].give}}</text>元(不累加)</text>
-          </view>
-        </view>
-
-
-        <block wx:for='{{acts}}' wx:for-item='item' wx:for-index='index' wx:key="acts">
-          <block wx:if='{{index > 0}}'>
-            <view class='fui-cell-group' style='margin-top: 0;'>
-              <view class='fui-cell' style='padding-left: 40rpx'>
-                <view class='fui-cell-text'>充值满
-                  <text class='text-danger'>{{item.enough}}</text>元 立即送
-                  <text class='text-danger'>{{item.give}}</text>元(不累加)
+ </view>
+           <block wx:for='{{acts}}' wx:for-item='item' wx:for-index='index' wx:key="acts">
+              <block wx:if='{{index > 0}}'>
+                <view class='fui-cell-group' style='margin-top: 0;'>
+                  <view class='fui-cell' style='padding-left: 40rpx'>
+                    <view class='fui-cell-text'>充值满<text class='text-danger'>{{item.enough}}</text>元 立即送<text class='text-danger'>{{item.give}}</text>元(不累加)</view>
                 </view>
-              </view>
-            </view>
-          </block>
+          </view>
         </block>
+      </block>
+     
+  </view>
+  </block>
 
-        
-      </view>
-    </block>
- -->
 
     <view bindtap='submit' class='btn btn-success block {{disabled?"disabled":""}}'>{{disabled?"积分不足":"立即兑换"}}</view>
   </view>
