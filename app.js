@@ -129,6 +129,6 @@ App({
     // approot: "https://demo.shopjoy.top/addons/ewei_shopv2/",
 		userInfo : null,
     city: '定位中...',
-    cityid:0
+    cityid:''
 	}
 })

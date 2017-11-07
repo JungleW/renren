@@ -224,14 +224,14 @@
       </view>
     </block>
 
-  <view class='attribute'>
+  <!-- <view class='attribute'>
       <view class='title'>选择品牌</view>
       <view class='item brands' wx:for='{{brands}}' wx:for-item='item' wx:for-index='index' wx:key="*brand">
         <view bindtap='bindBrandEvents' data-id="{{item.id}}" class='btn btn-default-o block {{brandSelected==item.id?"on":""}}'>
           {{item.brand}}
         </view>
       </view>
-  </view>
+  </view> -->
 
 
     <view class='btns'>

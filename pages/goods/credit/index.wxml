@@ -93,7 +93,7 @@
             </view>
           </view>
         </block>
-        <view class='fui-cell'>
+        <view class='fui-cell' style="display:none">
           <view class='fui-cell-text flex'>
             <block wx:if='{{dispatchpriceObj == 1}}'>
               <block wx:if='{{goods.type == 1}}'>
@@ -253,7 +253,7 @@
           </view>
         </view>
       </block>
-      <view class='fui-cell-group fui-shop-group'>
+      <view class='fui-cell-group fui-shop-group' wx:if='{{goods.shopdetail.shopname}}'>
         <navigator class='fui-list' openType='switchTab' url='/pages/index/index'>
           <view class='fui-list-media'>
             <image src='{{goods.shopdetail.logo}}'></image>
@@ -281,7 +281,8 @@
           </view>
         </view>
       </block>
-      <block wx:if='{{goods.params.length == 0 && !goods.getComments && commentObj.list.length > 0}}'>
+      <!-- <block wx:if='{{goods.params.length == 0 && !goods.getComments && commentObj.list.length > 0}}'> -->
+      <block wx:if='{{goods.params.length == 0}}'>
         <view class='fui-cell-group'>
           <view class='fui-list'>
             <view class='title'>商品详情</view>
@@ -337,7 +338,7 @@
                       <text class='{{item.level >= 4?"shine":""}}'>★</text>
                       <text class='{{item.level >= 5?"shine":""}}'>★</text></view>
                   </view>
-                  <view class='remark'>{{item.content}}</view>
+                  <view class='remark'>{{item.goodsdetail}}</view>
                   <view class='remark img'>
                     <block wx:for='{{item.images}}' wx:for-item='image' wx:for-index='idx' wx:key="*this">
                       <view class='img'>

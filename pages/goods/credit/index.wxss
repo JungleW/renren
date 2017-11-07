@@ -1,7 +1,7 @@
 .picker-modal{height:auto;}
-.goods-detail-info{width:100%;display: none;margin-top: 20rpx;}
+.goods-detail-info{width:100%;margin-top: 20rpx;}
 .goods-detail-goods{width:100%;}
-.goods-detail-para{width:100%;display: none;}
+.goods-detail-para{width:100%;}
 .goods-detail-comment{width:100%;display: none;margin-top: 20rpx;}
 .goods-detail-info.active{display:block;}
 .goods-detail-para.active{display: block;}

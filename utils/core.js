@@ -30,8 +30,6 @@ if (!cityid) {
             success: function (res) {
               var city = res.result.ad_info.city;
               console.log('successs', res, city);
-              //方便调试，，，，，，，，，，到时候要去掉
-              var city = '广州市';
 
               if (city != undefined) {
                 if (city_arr) {
@@ -101,6 +99,7 @@ module.exports = {
 
     var cityid = wx.getStorageSync('cityid');
     console.log('%%%%%%%%%%%%%%%%%%%', cityid)
+    n.cityid = cityid,
     i && d.loading(),
       n && (n.authkey = f || "");
     var p = a ? this.getUrl(t) : this.getUrl(t, n),
@@ -112,7 +111,7 @@ module.exports = {
           Cookie: "PHPSESSID=" + s.openid
         },
         data: {
-          cityid: cityid,
+          // cityid: cityid, //这里的数据，post的时候不会传过去
         },
       };
     c || delete l.header.Cookie,

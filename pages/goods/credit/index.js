@@ -20,7 +20,9 @@ Page({
 		e.get("shop/goods_info", {
       id: goodsId
 		}, function (data) {
-      s.wxParse("wxParseData", "html", data.goods.detail, a, "0");
+      s.wxParse("wxParseData", "html", data.goods.goodsdetail, a, 0);
+      data.goods.params = []
+
       a.setData({
         loading : !0,
         loaded: 1,
