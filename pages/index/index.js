@@ -115,10 +115,10 @@ Page({
             },
             coord_type: 1,
             success: function (res) {
-              var city = res.result.ad_info.city;
+              var city = '常州市';
+              //city = res.result.ad_info.city;
               console.log('successs', res, city);
               //方便调试，，，，，，，，，，到时候要去掉
-              //var city = '广州市';
               let open = false;
               if (city != undefined) {
                 //获取城市列表
@@ -127,12 +127,12 @@ Page({
                   {
                     for (var k in res.citys) {
                       var c = res.citys[k].name;
-                      // 数据库只有广州市，待更新
                       if (c == city)
                       {
                         var cityid = parseInt(res.citys[k].id);
                         app.globalData.cityid = cityid;
                         app.globalData.city = city;
+                        wx.setStorageSync('cityid', cityid)
                         self.setData({
                           city: city
                         })
