@@ -39,7 +39,7 @@
                       </view>
                     </view>
                     <view class='fui-cell-text'>
-                      <button  wx:if='{{canBuy}}' class='btn-exchange' disabled>兑换商品</button>
+                      <button  wx:if='{{!canBuy}}' class='btn-exchange btn-disabled'>兑换商品</button>
                       <button wx:else class='btn-exchange' bindtap="toSubmit">兑换商品</button>
                     </view>
                   </view>

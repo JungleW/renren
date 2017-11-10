@@ -3,7 +3,7 @@ var QQMapWX = require("qqmap-wx-jssdk.min.js");
 var cityid = wx.getStorageSync('cityid')
 if (!cityid) {
   wx.request({
-    url: 'https://demo.shopjoy.top/app/ewei_shopv2_api.php?i=3&r=shop.get_citys',
+    url: 'https://xx.shopjoy.top/app/ewei_shopv2_api.php?i=3&r=shop.get_citys',
     data: {},
     header: {
       'content-type': 'application/json'

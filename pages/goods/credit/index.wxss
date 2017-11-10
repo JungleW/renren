@@ -18,6 +18,7 @@
 .fui-detail-group { margin-top: 0 }
 .fui-detail-group .fui-cell { padding: 0 20rpx 20rpx;  }
 .fui-detail-group .fui-cell .btn-exchange{ font-size: 1.2em; background: red; color: #fff; }
+.fui-detail-group .fui-cell .btn-disabled{background-color:#e3e3e3;color:gray;}
 .fui-detail-group .fui-cell:before { border: 0; }
 .fui-detail-group .fui-cell .price { font-size: 40rpx; color: #fd5454; line-height: 56rpx; font-weight: bold; }
 .fui-detail-group .fui-cell .price .original { font-size:24rpx; color: #C0C0C0; text-decoration: line-through; padding-left: 8rpx; font-weight: normal }
