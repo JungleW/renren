@@ -10,6 +10,7 @@ Page({
 		interval : 5e3,
 		duration : 500,
 		circular : !0,
+    canBuy: false,
 	},
 	getDetail : function (goodsId) {
 		var a = this,
@@ -20,11 +21,17 @@ Page({
 		e.get("shop/goods_info", {
       id: goodsId
 		}, function (data) {
-      s.wxParse("wxParseData", "html", data.goods.detail, a, "0");
+      s.wxParse("wxParseData", "html", data.goods.goodsdetail, a, 0);
+      data.goods.params = [];
+      let canBuy = true;
+      if(parseInt(data.goods.total)<=0){
+        canBuy = false
+      }
       a.setData({
         loading : !0,
         loaded: 1,
-        goods: data.goods
+        goods: data.goods,
+        canBuy: canBuy,
       })
 		})
 	},

@@ -69,6 +69,10 @@ Page({
   },
   showGoods: function(navId){
     var that = this; 
+    if (that.data.navbar.length == 0){
+      a.alert('暂无商品');
+      return;
+    }
     var goods = this.data.goods;
     if(!navId){
       navId = that.data.navbar[0].id

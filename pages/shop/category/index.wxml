@@ -52,7 +52,7 @@
             <!-- 每组属性 -->
             <view class="attr_box">
               <!-- 属性值 -->
-              <view class="attr_value_box {{cateIdSelected?'': 'active'}}" data-id="" bindtap="tapCate">
+              <view class="attr_value_box {{(!cateIdSelected || leftNavs.length && cateIdSelected == leftNavs[currentLeftNav].id)?'active': ''}}" data-id="{{leftNavs.length > 0? leftNavs[currentLeftNav].id:''}}" bindtap="tapCate">
                 <!-- 每个属性值 -->
                 <view class="attr_value attr">全部</view>
               </view>

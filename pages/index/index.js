@@ -27,8 +27,7 @@ Page({
 		hotimg : "/static/images/hotdot.jpg",
 		notification : "/static/images/notification.png",
     show:false,
-    floor:{},
-    citys:[]
+    floor:{}
 	},
 	getShop : function () {
 		var that = this;
@@ -89,7 +88,6 @@ Page({
     })
 	},
 	onLoad : function (t) {
-    console.log('aaaaaaaaaaaaaaaaaaaa', t, isLoc)
     var app = getApp();
     var self = this;
     if (isLoc) {
@@ -116,51 +114,45 @@ Page({
             },
             coord_type: 1,
             success: function (res) {
-              var city = res.result.ad_info.city;
+              var city = '常州市';
+              //city = res.result.ad_info.city;
               console.log('successs', res, city);
-              //方便调试，，，，，，，，，，到时候要去掉
-              var city = '广州市';
-
+              let open = false;
               if (city != undefined) {
                 //获取城市列表
-                a.get("shop/get_citys", {}, function (a) {
-                  if (a.citys)
+                a.get("shop/get_citys", {}, function (res) {
+                  if (res.citys)
                   {
-                    for (var k in a.citys) {
-                      if (a.citys[k].name == city)
+                    for (var k in res.citys) {
+                      var c = res.citys[k].name;
+                      if (c == city)
                       {
-                        var city_id = parseInt(a.citys[k].id);
-                        app.globalData.city_id = city_id;
+                        var cityid = parseInt(res.citys[k].id);
+                        app.globalData.cityid = cityid;
+                        app.globalData.city = city;
+                        wx.setStorageSync('cityid', cityid)
+                        self.setData({
+                          city: city
+                        })
+                        open = true;
                       }
                     }
+                    if (open) {
+                      a.alert('欢迎使用佩祥建材小程序公测版！')
+                      self.init();
+                    }else{
+                      wx.redirectTo({
+                        url: '/pages/error/error?type=1'
+                      })
+                    }
                   }
-
-                  let city_arr = a.citys; 
-                  //城市数组
-                  self.setData({
-                    citys: city_arr
-                    })
                 })
-
-                //判断当前用户是否在常州市 或 广州市
-                if (city == '常州市' || city == '广州市'){
-                  a.alert('亲这是小程序公测版，暂不发货，谢谢配合')
-                }
-                else{
-                  /*
-                  wx.redirectTo({
-                    url: '/pages/error/error?type=1'
-                  })
-                  return false;
-                  */
-                }
-                self.setData({
-                  //当前所在城市
-                  city: city
-                });
-                getApp().globalData.city = city;
+              } else {
+                wx.redirectTo({
+                  url: '/pages/error/error?type=2'
+                })
+                return false;
               }
-              
             },
             fail: function (res) {
               wx.redirectTo({
@@ -172,23 +164,24 @@ Page({
         },
         fail: function (res) {
           wx.redirectTo({
-            url: '/pages/error/error?type=2'
+            url: '/pages/error/error?type=3'
           })
           return false;
         }
       })
     }	
 	},
-	onShow : function () {
-		var a = t.getCache("sysset");
-		wx.setNavigationBarTitle({
-			title : a.shopname || "商城首页"
-		})
-		this.getShop()
-		// this.getRecommand()
+	onShow : function () {},
+  init: function(){
+    var a = t.getCache("sysset");
+    wx.setNavigationBarTitle({
+      title: a.shopname || "商城首页"
+    })
+    this.getShop()
+    // this.getRecommand()
     //获取楼层
     this.getFloor()
-	},
+  },
 	onShareAppMessage : function () {
 		return a.onShareAppMessage()
 	},

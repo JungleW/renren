@@ -12,7 +12,7 @@ body {
 
 /*侧边栏顶级分类给予固定宽度*/
 .sidebar {
-	width: 240rpx;
+	width: 200rpx;
 }
 .sidebar .active {
    color: #fff; 
@@ -40,12 +40,14 @@ body {
 }
 
 .main {
-	width: 100%;
+	width: initial;
+  min-width:70%;
 	margin-left: 20rpx;
 	display: flex;
 	flex-direction: column;
 	 /* z-index:9; */
 	height:800rpx; 
+
 }
 
 /*category banner*/
@@ -259,6 +261,7 @@ page1{
   height: 100%;  
 }  
 .navbar1{  
+  z-index:100;
   flex: none;  
   display: flex;  
   background: #fff; 
@@ -341,7 +344,7 @@ width:70%;
 }   
 /*每组属性的主盒子*/  
 .attr_box {  
-  width: 100%;  
+  width: 72%;  
   overflow: hidden;  
   border-bottom: 1rpx solid #ececec;  
   margin-left: -25rpx;
@@ -349,6 +352,7 @@ width:70%;
   margin-top:32px;
 background:#fff;
 position:fixed;
+z-index:10;
 
 
 }  
@@ -363,7 +367,7 @@ position:fixed;
   float: left;  
   padding: 11rpx 0;  
   overflow: hidden; 
-  width: 25%; 
+  width: 33%; 
 }  
 .attr_box .active .attr_value{
   border: 1rpx solid #C9121E;
@@ -373,11 +377,12 @@ position:fixed;
 .attr_value { 
   width:70%;
   float:left;
-  padding:8rpx;
+  padding:10rpx 5px;
   margin:6rpx 20rpx;
   border:1rpx solid gray;
   border-radius:6rpx;
   text-align:center;
+  height:1rem;
 }  
 .attr_value.attr:active{
   color: red;
