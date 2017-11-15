@@ -115,7 +115,7 @@ Page({
             coord_type: 1,
             success: function (res) {
               var city = '常州市';
-              //city = res.result.ad_info.city;
+              city = res.result.ad_info.city;
               console.log('successs', res, city);
               let open = false;
               if (city != undefined) {
