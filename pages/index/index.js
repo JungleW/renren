@@ -88,7 +88,6 @@ Page({
     })
 	},
 	onLoad : function (t) {
-    console.log('aaaaaaaaaaaaaaaaaaaa', t, isLoc)
     var app = getApp();
     var self = this;
     if (isLoc) {
@@ -115,8 +114,8 @@ Page({
             },
             coord_type: 1,
             success: function (res) {
-              var city = '广州市';
-              city = res.result.ad_info.city;
+              var city = '常州市';
+              //city = res.result.ad_info.city;
               console.log('successs', res, city);
               let open = false;
               if (city != undefined) {
